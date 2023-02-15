@@ -50,7 +50,7 @@ class Serializer(models.Model):
         required.update(
             field.name or field.field_id.name
             for field in fields
-            if field.field_id.required
+            if field.required or field.field_id.required
         )
 
         props.update(schemes.to_schema())

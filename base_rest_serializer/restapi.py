@@ -29,12 +29,18 @@ class Serializer(restapi.RestMethodParam):
             if not all(isinstance(x, dict) for x in params):
                 raise BadRequest(_("Expected a list of dictionaries"))
 
-            return serializer.deserialize(params, False)
+            try:
+                return serializer.deserialize(params, False)
+            except Exception as e:
+                raise BadRequest(_("The input doesn't fit the schema")) from e
 
         if not isinstance(params, dict):
             raise BadRequest(_("Expected a dictionary"))
 
-        return serializer.deserialize([params], False)[0]
+        try:
+            return serializer.deserialize([params], False)[0]
+        except Exception as e:
+            raise BadRequest(_("The input doesn't fit the schema")) from e
 
     def to_response(self, service, result) -> http.Response:
         if result is None:
