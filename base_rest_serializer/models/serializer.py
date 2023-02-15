@@ -48,9 +48,7 @@ class Serializer(models.Model):
         props.update(fields.to_schema())
 
         required.update(
-            field.name or field.field_id.name
-            for field in fields
-            if field.required or field.field_id.required
+            field.name or field.field_id.name for field in fields if field.required
         )
 
         props.update(schemes.to_schema())
