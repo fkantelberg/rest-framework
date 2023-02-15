@@ -32,6 +32,7 @@ class Serializer(restapi.RestMethodParam):
             try:
                 return serializer.deserialize(params, False)
             except Exception as e:
+                _logger.exception(e)
                 raise BadRequest(_("The input doesn't fit the schema")) from e
 
         if not isinstance(params, dict):
@@ -40,6 +41,7 @@ class Serializer(restapi.RestMethodParam):
         try:
             return serializer.deserialize([params], False)[0]
         except Exception as e:
+            _logger.exception(e)
             raise BadRequest(_("The input doesn't fit the schema")) from e
 
     def to_response(self, service, result) -> http.Response:
